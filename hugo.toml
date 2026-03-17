@@ -1,0 +1,5 @@
+baseURL = 'https://rumosky.com/'
+locale = 'zh-cn'
+title = '如默星空'
+[[module.imports]]
+    path = "github.com/CaiJimmy/hugo-theme-stack/v4"
