@@ -1,0 +1,26 @@
+# Rename this file to languages.toml to enable multilingual support
+[zh]
+    languageName = "简体中文"
+    title        = "如默星空"
+    weight       = 1
+
+    [zh.params.sidebar]
+        subtitle = "一个假理科生&伪程序员"
+
+[en]
+    languageName = "English"
+    title        = "rumosky"
+    weight       = 2
+
+    [en.params.sidebar]
+        subtitle = "Card-style Hugo theme designed for bloggers"
+
+
+[zh-hant-tw]
+    languageName = "正體中文"
+    title        = "如默星空"
+    weight       = 3
+
+    [zh-hant-tw.params.sidebar]
+        subtitle = "為博客設計的卡片式 Hugo 主題"
+
