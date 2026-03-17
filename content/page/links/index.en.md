@@ -1,5 +1,5 @@
 ---
-title: "友链"
+title: "Links"
 slug: "links"
 date: 2023-11-29T16:13:00+08:00
 lastmod: 2024-04-17T23:46:13+08:00

@@ -8,7 +8,7 @@ menu:
     main:
         weight: 5
         params: 
-            icon: archives
+            icon: message
 ---
 
 > 注：以下声明中本站均为如默星空，网站链接： `https://rumosky.com` 

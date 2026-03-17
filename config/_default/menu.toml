@@ -8,17 +8,25 @@
 #newtab = true
 
 [[social]]
+    identifier = "mail"
+    name       = "Mail"
+    url        = "mailto:support@rumosky.com"
+
+    [social.params]
+        icon = "mail"
+
+[[social]]
+    identifier = "qq"
+    name       = "QQ"
+    url        = "mailto:774026486@qq.com"
+
+    [social.params]
+        icon = "brand-qq"
+
+[[social]]
     identifier = "github"
-    name       = "GitHub"
+    name       = "Github"
     url        = "https://github.com/rumosky"
 
     [social.params]
         icon = "brand-github"
-
-[[social]]
-    identifier = "twitter"
-    name       = "Twitter"
-    url        = "https://twitter.com"
-
-    [social.params]
-        icon = "brand-twitter"

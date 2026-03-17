@@ -1,5 +1,5 @@
 ---
-title: "声明"
+title: "Statements"
 slug: "statements"
 date: 2019-01-22T20:42:00+08:00
 lastmod: 2024-04-17T23:41:58+08:00
@@ -8,7 +8,7 @@ menu:
     main:
         weight: 5
         params: 
-            icon: archives
+            icon: message
 ---
 
 > 注：以下声明中本站均为如默星空，网站链接： `https://rumosky.com` 
