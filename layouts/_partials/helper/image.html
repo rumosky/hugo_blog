@@ -1,0 +1,31 @@
+{{- $url := .url -}}
+{{- $alt := .alt -}}
+{{- $resource := "not_found" -}}
+
+{{- if (urls.Parse $url).Scheme -}}
+    <!-- 远程图片处理 -->
+    {{- $options := dict 
+        "headers" (dict 
+            "User-Agent" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0"
+            "Referer" "https://rumosky.com" 
+        ) 
+    -}}
+    <!-- 尝试抓取 -->
+    {{- $resource = resources.GetRemote $url $options -}}
+{{- else -}}
+    <!-- 本地图片处理 -->
+    {{- $resource = resources.Get .url -}}
+{{- end -}}
+
+{{- if $resource -}}
+    <!-- 如果抓取成功，执行原有的缩略图等逻辑 -->
+    {{- $image := $resource -}}
+    <img src="{{ $image.Permalink }}" alt="{{ $alt }}" loading="lazy" 
+         {{ with .class }} class="{{ . }}" {{ end }} 
+         {{ with .width }} width="{{ . }}" {{ end }} 
+         {{ with .height }} height="{{ . }}" {{ end }}>
+{{- else -}}
+    <!-- 【关键：容错逻辑】如果抓取失败(403)，直接输出原始 URL，不让它空白 -->
+    <img src="{{ $url | safeURL }}" alt="{{ $alt }}" loading="lazy" 
+         {{ with .class }} class="{{ . }}" {{ end }}>
+{{- end -}}
