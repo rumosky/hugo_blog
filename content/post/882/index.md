@@ -16,7 +16,7 @@ draft: false
 
 ![插件图标](https://cdn.rumosky.com/usr/uploads/2026/03/202603208736.png)
 
-[picgo-plugin-compress-pro](https://github.com/rumosky/picgo-plugin-compress-pro)
+插件源码：[picgo-plugin-compress-pro](https://github.com/rumosky/picgo-plugin-compress-pro)
 
 1. 支持**本地压缩**和**在线压缩**。
 
