@@ -48,6 +48,19 @@ SortBy              = "default"
     toggle  = true
     default = "auto"
 
+[imageProcessing]
+    autoOrient = false
+
+    [imageProcessing.external]
+        timeout = "5s"
+
+    [imageProcessing.content]
+        widths  = [800, 1600, 2400]
+        enabled = false
+
+    [imageProcessing.thumbnail]
+        enabled = false
+
 ## Comments
 [comments]
     enabled  = false
