@@ -1,3 +1,4 @@
+{{- $ThemeVersion := "4.0.0" -}}
 <footer class="site-footer">
     <section class="copyright">
         Copyright &copy; 
@@ -8,11 +9,6 @@
     </section>
     
     <section class="powerby">
-        {{/* 自定义文字内容（如果配置文件里有的话） */}}
-        {{ with .Site.Params.footer.customText }}
-            {{ . | safeHTML }} <br/>
-        {{ end }}
-
         {{/* ICP 备案信息 */}}
         <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
             <span>	陕ICP备2022009196号-1</span>
@@ -23,5 +19,15 @@
            target="_blank" rel="noopener">
             <span>陕公网安备61010302000967号</span>
         </a>
+        {{ with .Site.Params.footer.customText }}
+            {{ . | safeHTML }} <br/>
+        {{ end }}
+
+        {{- $Generator := `<a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>` -}}
+        {{- $Theme := printf `<b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="%s">Stack</a></b>` $ThemeVersion -}}
+        {{- $DesignedBy := `<a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>` -}}
+
+        {{ T "footer.builtWith" (dict "Generator" $Generator) | safeHTML }} <br />
+        {{ T "footer.designedBy" (dict "Theme" $Theme "DesignedBy" $DesignedBy) | safeHTML }}
     </section>
 </footer>

@@ -8,15 +8,30 @@ tags: []
 draft: false
 ---
 
-按照文档配置，内容如下：
-
-```toml
-python-install-mirror = "https://registry.npmmirror.com/-/binary/python-build-standalone/"
-
-[[index]]
-url = "https://mirrors.aliyun.com/pypi/simple"
-default = true
-
-[pip]
-index-url = "https://mirrors.aliyun.com/pypi/simple"
+[官方配置文档地址](https://docs.astral.sh/uv/concepts/configuration-files/)
+
+> user-level configuration (e.g., ~/.config/uv/uv.toml) and system-level configuration (e.g., /etc/uv/uv.toml).
+
+按照文档配置，内容如下：
+
+
+
+```toml
+
+python-install-mirror = "https://registry.npmmirror.com/-/binary/python-build-standalone/"
+
+
+
+[[index]]
+
+url = "https://mirrors.aliyun.com/pypi/simple"
+
+default = true
+
+
+
+[pip]
+
+index-url = "https://mirrors.aliyun.com/pypi/simple"
+
 ```
