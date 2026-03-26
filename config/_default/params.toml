@@ -2,7 +2,7 @@
 mainSections = ["post"]
 # Output page's full content in RSS.
 rssFullContent = true
-favicon        = "img/favicon.ico"
+favicon        = "img/favicon.png"
 
 # Accepted values: "default", "lastmod"
 # default = see https://gohugo.io/quick-reference/glossary/#default-sort-order
@@ -56,10 +56,10 @@ SortBy              = "default"
 
     [imageProcessing.content]
         widths  = [800, 1600, 2400]
-        enabled = true
+        enabled = false
 
     [imageProcessing.thumbnail]
-        enabled = true
+        enabled = false
 
 ## Comments
 [comments]

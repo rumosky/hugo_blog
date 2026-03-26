@@ -1,31 +1,73 @@
-{{- $url := .url -}}
-{{- $alt := .alt -}}
-{{- $resource := "not_found" -}}
+{{- /* 
+Params:
+    Resources: Where to search for images
+    Image: Image URL
+    Context: page context
+*/ -}}
 
-{{- if (urls.Parse $url).Scheme -}}
-    <!-- 远程图片处理 -->
-    {{- $options := dict 
-        "headers" (dict 
-            "User-Agent" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0"
-            "Referer" "https://rumosky.com" 
-        ) 
-    -}}
-    <!-- 尝试抓取 -->
-    {{- $resource = resources.GetRemote $url $options -}}
-{{- else -}}
-    <!-- 本地图片处理 -->
-    {{- $resource = resources.Get .url -}}
+{{- $image := .Image -}}
+{{- $resources := .Resources -}}
+{{- $context := .Context -}}
+
+{{- /* 技巧：通过获取一个不存在的资源来初始化一个“真正的空资源对象”，避开 nil 关键字 */ -}}
+{{- $actualResource := .Resources.Get "hugonil-placeholder" -}}
+{{- $permalink := ($image | safeURL) -}}
+{{- $width := 0 -}}
+{{- $height := 0 -}}
+
+{{- if $image -}}
+    {{- $url := urls.Parse $image -}}
+
+    {{- if not (in (slice "https" "http") $url.Scheme) -}}
+        {{- /* 1. 本地图片逻辑 */ -}}
+        {{- $localRes := false -}}
+        {{- if $resources -}}
+            {{- $localRes = $resources.Get $image -}}
+        {{- end -}}
+        {{- if not $localRes -}}
+            {{- $localRes = resources.Get $image -}}
+        {{- end -}}
+        
+        {{- if $localRes -}}
+            {{- $actualResource = $localRes -}}
+            {{- $permalink = $actualResource.RelPermalink -}}
+        {{- end -}}
+
+    {{- else -}}
+        {{- /* 2. 远程图片逻辑（带 Header 和 try 容错） */ -}}
+        {{- $options := dict 
+            "headers" (dict 
+                "User-Agent" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+                "Referer" "https://rumosky.com" 
+            )
+            "timeout" "10s"
+        -}}
+        
+        {{- /* 使用 try 捕获 403/Media Type 错误 */ -}}
+        {{- $tryGet := try (resources.GetRemote $image $options) -}}
+        
+        {{- if $tryGet.Err -}}
+            {{- warnf "Remote image fetch failed for %q: %s" $image $tryGet.Err -}}
+        {{- else if $tryGet.Value -}}
+            {{- $actualResource = $tryGet.Value -}}
+            {{- $permalink = $actualResource.Permalink -}}
+        {{- end -}}
+    {{- end -}}
+
+    {{- /* 3. 统一处理成功获取的资源属性 */ -}}
+    {{- if $actualResource -}}
+        {{- /* 自动旋转 */ -}}
+        {{- if and $context.Site.Params.imageProcessing.autoOrient (reflect.IsImageResourceProcessable $actualResource) -}}
+            {{- $actualResource = $actualResource | images.Filter images.AutoOrient -}}
+        {{- end -}}
+
+        {{- /* 提取长宽（如果存在） */ -}}
+        {{- if reflect.IsImageResourceWithMeta $actualResource -}}
+            {{- $width = $actualResource.Width -}}
+            {{- $height = $actualResource.Height -}}
+        {{- end -}}
+    {{- end -}}
 {{- end -}}
 
-{{- if $resource -}}
-    <!-- 如果抓取成功，执行原有的缩略图等逻辑 -->
-    {{- $image := $resource -}}
-    <img src="{{ $image.Permalink }}" alt="{{ $alt }}" loading="lazy" 
-         {{ with .class }} class="{{ . }}" {{ end }} 
-         {{ with .width }} width="{{ . }}" {{ end }} 
-         {{ with .height }} height="{{ . }}" {{ end }}>
-{{- else -}}
-    <!-- 【关键：容错逻辑】如果抓取失败(403)，直接输出原始 URL，不让它空白 -->
-    <img src="{{ $url | safeURL }}" alt="{{ $alt }}" loading="lazy" 
-         {{ with .class }} class="{{ . }}" {{ end }}>
-{{- end -}}
+{{- /* 4. 返回字典，Resource 此时要么是有效对象，要么是 Hugo 内部的空值 */ -}}
+{{- return (dict "Resource" $actualResource "Permalink" $permalink "Height" $height "Width" $width) -}}

@@ -82,11 +82,11 @@ menu:
 
 ##### 微信
 
-![微信支付](/assets/img/WeChat.png)
+![微信支付](https://cdn.rumosky.com/assets/img/WeChat.png)
 
 ##### 支付宝
 
-![支付宝支付](/assets/img/Alipay.png)
+![支付宝支付](https://cdn.rumosky.com/assets/img/Alipay.png)
 
 
 新增爱发电赞赏方式： <i class="fa fa-link"></i>[爱发电](https://afdian.net/@rumosky) 
